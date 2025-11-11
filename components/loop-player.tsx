@@ -107,11 +107,10 @@ export function LoopPlayer({ onAddSong, currentSong }: LoopPlayerProps) {
 
   const onPlayerReady: YouTubeProps["onReady"] = (event) => {
     playerRef.current = event.target
-    if (isPlaying && startTime) {
+    if (startTime) {
       const start = parseTimeInput(startTime)
       if (start !== null) {
         event.target.seekTo(start, true)
-        event.target.playVideo()
       }
     }
   }
@@ -166,14 +165,14 @@ export function LoopPlayer({ onAddSong, currentSong }: LoopPlayerProps) {
         {error && <div className="text-destructive text-sm bg-destructive/10 p-3 rounded">{error}</div>}
 
         <div className="flex gap-3">
-          <Button onClick={handlePlay} className="flex-1" size="lg">
-            {isPlaying ? "Playing..." : "Play Loop"}
+          <Button
+            onClick={isPlaying ? handleStop : handlePlay}
+            className="flex-1"
+            size="lg"
+            variant={isPlaying ? "secondary" : "default"}
+          >
+            {isPlaying ? "⏸ Playing" : "▶ Play Loop"}
           </Button>
-          {isPlaying && (
-            <Button onClick={handleStop} variant="outline" size="lg">
-              Stop
-            </Button>
-          )}
         </div>
       </Card>
 
